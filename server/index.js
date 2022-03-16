@@ -14,10 +14,8 @@ app.use(express.json()); //req.body
 
 app.post('/employees', async (req, res) =>{
     try{
-        const { firstName } = req.body;
-        const { lastName } = req.body;
-        const { birthDate } = req.body;
-        const { afm } = req.body;
+        const { firstName, lastName, birthDate, afm } = req.body;
+
         const newEmployee = await pool.query(
             'INSERT INTO employees (firstName, lastName, birthDate, afm) VALUES($1, $2, $3, $4) RETURNING *',
             [firstName, lastName, birthDate, afm]
@@ -61,10 +59,8 @@ app.get('/employees/:id', async (req, res) =>{
 app.put('/employees/:id', async (req, res) =>{
     try{
         const { id } = req.params;
-        const { firstName } = req.body;
-        const { lastName } = req.body;
-        const { birthDate } = req.body;
-        const { afm }  = req.body;
+        const { firstName, lastName, birthDate, afm} = req.body;
+    
         const updateEmployee = await pool.query(
             'UPDATE employees SET firstName=$1, lastName=$2, birthDate=$3, afm=$4 WHERE id = $5',
             [firstName, lastName, birthDate, afm, id ]
