@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -7,7 +6,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@material-ui/core/Textfield';
 import Button from '@mui/material/Button';
-import UpdateIcon from '@mui/icons-material/Update';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,10 +14,10 @@ import { useNavigate, useParams } from "react-router-dom";
 const EditEmployee = () => {
 
      const [updateEmployee, setUpdateEmployee] = useState({
-      firstName:'',
-      lastName: '',
-      birthDate: '',
-      afm: ''
+      firstName: null,
+      lastName: null,
+      birthDate: null,
+      afm: null
     })
   
 
@@ -39,9 +37,9 @@ const EditEmployee = () => {
 
     const loadEmployee = async (id) => {
       const res = await fetch("http://localhost:5000/employees/" + id);
-      const data = await res.json();
+      const employee = await res.json();
 
-      setUpdateEmployee({ firstName: data.firstname, lastName: data.lastname,  birthDate: data.birthdate, afm: data.afm } );
+      setUpdateEmployee({ firstName: employee.firstname, lastName: employee.lastname,  birthDate: employee.birthdate, afm: employee.afm } );
  
     };
   
@@ -51,7 +49,7 @@ const EditEmployee = () => {
     const onSubmitForm = async e => {
     e.preventDefault();
     try { 
-       const response = await fetch(
+        await fetch(
         "http://localhost:5000/employees/" + params.id,
         {
           method: "PUT",
@@ -85,6 +83,9 @@ const EditEmployee = () => {
         fullWidth
         variant="standard"
         value={updateEmployee.firstName}
+        InputLabelProps={{
+          shrink: true,
+        }}
         onChange= { e => setUpdateEmployee({
           ...updateEmployee,
           firstName : e.target.value
@@ -99,6 +100,9 @@ const EditEmployee = () => {
         fullWidth
         variant="standard"
         value={updateEmployee.lastName}
+        InputLabelProps={{
+          shrink: true,
+        }}
         onChange= { e => setUpdateEmployee({
           ...updateEmployee,
           lastName : e.target.value
@@ -131,6 +135,9 @@ const EditEmployee = () => {
         fullWidth
         variant="standard"
         value={updateEmployee.afm}
+        InputLabelProps={{
+          shrink: true,
+        }}
         onChange= { e => setUpdateEmployee({
           ...updateEmployee,
           afm : e.target.value
@@ -151,6 +158,7 @@ const EditEmployee = () => {
   </Dialog>
 </Fragment>
 
-)};
+)
+};
 
 export default EditEmployee;

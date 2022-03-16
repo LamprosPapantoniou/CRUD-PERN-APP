@@ -6,13 +6,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import {AppBar,Box, Container} from '@mui/material';
-import Typography from "@mui/material/Typography";
-import Toolbar from "@mui/material/Toolbar";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 
@@ -20,23 +15,21 @@ import { useNavigate } from "react-router-dom";
 const InputEmployee = () => {
 
   const[newEmployee, setNewEmployee]= useState ({
-    firstName: '',
-    lastName: '',
-    birthDate: '',
-    afm: ''
+    firstName: null,
+    lastName: null,
+    birthDate: null,
+    afm: null
   })
 
   const [errorMessage, setErrorMessage] = useState(false); 
-  const [startDate, setStartDate] = useState(new Date());
-
 
  const navigate = useNavigate();
 
   const onSubmitForm = async e => {
     e.preventDefault();
     try {
-       const body = newEmployee; 
-       const response = await fetch('http://localhost:5000/employees', {
+        const body = newEmployee; 
+        await fetch('http://localhost:5000/employees', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -68,6 +61,9 @@ const InputEmployee = () => {
             fullWidth
             variant="standard"
             value={newEmployee.firstName}
+            InputLabelProps={{
+              shrink: true,
+            }}
             onChange= { e => setNewEmployee({
               ...newEmployee,
               firstName : e.target.value
@@ -82,6 +78,9 @@ const InputEmployee = () => {
             fullWidth
             variant="standard"
             value={newEmployee.lastName}
+            InputLabelProps={{
+              shrink: true,
+            }}
             onChange= { e => setNewEmployee({
               ...newEmployee,
               lastName : e.target.value
@@ -115,6 +114,9 @@ const InputEmployee = () => {
             fullWidth
             variant="standard"
             value={newEmployee.afm}
+            InputLabelProps={{
+              shrink: true,
+            }}
             onChange= { e => setNewEmployee({
               ...newEmployee,
               afm : e.target.value

@@ -9,11 +9,8 @@ import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Card, CardContent } from "@mui/material";
 import UpdateIcon from '@mui/icons-material/Update';
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-
-import EditEmployee from "./EditEmployee";
 
 
 
@@ -25,11 +22,15 @@ const ListEmployees = () => {
 
       const deleteEmployee = async (id) => {
         try {
-          const deleteEmployee = await fetch(`http://localhost:5000/employees/${id}`, {
-          method: 'DELETE'
+           await fetch(`http://localhost:5000/employees/${id}`, {
+           method: 'DELETE'
           });
 
-          setEmployees(Employees.filter(employee => employee.id !== id))    
+          const response = await fetch("http://localhost:5000/employees")
+          const jsonData = await response.json();
+
+          setEmployees(jsonData) ;
+
         } catch (err) {
 
           console.error(err.message)
@@ -43,14 +44,13 @@ const ListEmployees = () => {
             const jsonData = await response.json();
 
             setEmployees(jsonData);
-            console.log(jsonData);
-        }catch(err){
+        } catch(err) {
             console.error(err.message);
         }
     };
 
     useEffect(() => {
-        getEmployees(); //???//
+        getEmployees(); 
     }, []);
 
       //format birthday date //
