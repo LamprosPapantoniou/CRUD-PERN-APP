@@ -8,8 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate} from "react-router-dom";
 
 
 const InputEmployee = () => {
@@ -21,31 +20,39 @@ const InputEmployee = () => {
     afm: null
   })
 
-  const [errorMessage, setErrorMessage] = useState(false); 
+  const [errorMessage, setErrorMessage] = useState(false);
 
- const navigate = useNavigate();
+    
+  const navigate = useNavigate();
 
   const onSubmitForm = async e => {
     e.preventDefault();
     try {
+      const response = await fetch(`http://localhost:5000/employees?afm=${newEmployee.afm}`) //returns the users  with the same afm as the inserted one (if exists)
+      const returnAfm = await response.json();
+      
+      // eslint-disable-next-line eqeqeq
+      if (returnAfm.afm != newEmployee.afm) {
         const body = newEmployee; 
         await fetch('http://localhost:5000/employees', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
-
       navigate("/");  
 
-    } catch (err) {
+      }else {
+        setErrorMessage('To ΑΦΜ υπάρχει ήδη!');
+      }
+     }catch (err) {
       setErrorMessage('Ουπς...Κάτι πηγε στραβά!');
     }
+  
   };
 
 
   return(
     <Fragment>
-
       <Dialog open  >
         <DialogTitle>ΕΓΓΡΑΦΗ</DialogTitle>
         <DialogContent>
@@ -123,6 +130,7 @@ const InputEmployee = () => {
             })
           }
           />
+
         </DialogContent>
         { errorMessage && 
            <Alert severity="error" >

@@ -12,8 +12,6 @@ import UpdateIcon from '@mui/icons-material/Update';
 import { useNavigate } from "react-router-dom";
 
 
-
-
 const ListEmployees = () => {
     
     const [Employees, setEmployees] = useState([]);
@@ -42,7 +40,7 @@ const ListEmployees = () => {
         try{
             const response = await fetch("http://localhost:5000/employees")
             const jsonData = await response.json();
-
+                        
             setEmployees(jsonData);
         } catch(err) {
             console.error(err.message);

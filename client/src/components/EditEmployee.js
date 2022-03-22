@@ -25,45 +25,57 @@ const EditEmployee = () => {
 
 
     const navigate = useNavigate();
+
     const params = useParams();
 
     
-    useEffect(() => {
-      if (params.id) {
-        loadEmployee(params.id);
-      }
-    }, [params.id]);
+    
 
-
-    const loadEmployee = async (id) => {
-      const res = await fetch("http://localhost:5000/employees/" + id);
+    //Load Employee//
+      const loadEmployee = async (id) => {
+      const res = await fetch(`http://localhost:5000/employees/${params.id}`);
       const employee = await res.json();
 
       setUpdateEmployee({ firstName: employee.firstname, lastName: employee.lastname,  birthDate: employee.birthdate, afm: employee.afm } );
  
     };
+
+    //useEffect
+     useEffect(() => {
+      if (params.id) {
+        loadEmployee(params.id);
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params.id]);
   
-  
+    
     //edit employee function
    
-    const onSubmitForm = async e => {
+    async function onSubmitForm(e) {
     e.preventDefault();
-    try { 
+    try {
+      const response = await fetch(`http://localhost:5000/employees?afm=${updateEmployee.afm}`);
+      const returnEmployee = await response.json();
+
+      // eslint-disable-next-line eqeqeq
+      if (returnEmployee.afm !== updateEmployee.afm || returnEmployee.id == params.id) {
         await fetch(
-        "http://localhost:5000/employees/" + params.id,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updateEmployee)
-        }
-      );
+          `http://localhost:5000/employees/${params.id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updateEmployee)
+          }
+        );
 
-      navigate("/");
-
-     } catch (err) {
+        navigate("/");
+      } else {
+        setErrorMessage('Το ΑΦΜ που εισάγετε υπάρχει ήδη!');
+      }
+    } catch (err) {
       setErrorMessage('Ουπς...Κάτι πηγε στραβά!');
     }
-  };
+  }
 
   return(
     <Fragment>
