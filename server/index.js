@@ -31,14 +31,29 @@ app.post('/employees', async (req, res) =>{
 
 app.get('/employees', async (req, res) =>{
     try{
+        const {afm}= req.query;
+        if(afm === undefined)
+        {
         const allEmployees = await pool.query(
             "SELECT * FROM employees"
         );
-        res.json(allEmployees.rows);
+        res.json(allEmployees.rows); }
+        else{
+            const check = await pool.query(
+                'SELECT * FROM employees WHERE afm=$1',
+                [afm]
+            );
+            if(check.rows[0] == undefined){
+                res.json("Empty");
+            }else{
+        res.json(check.rows[0]);
+        } 
+     } 
     }catch (err){
         console.error(err.message);
     }
 });
+
 
 //get an employee
 
@@ -85,6 +100,7 @@ app.delete('/employees/:id', async (req, res) =>{
         console.error(null);
     }
 });
+
 
 
 
