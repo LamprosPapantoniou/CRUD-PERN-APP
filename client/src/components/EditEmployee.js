@@ -33,7 +33,7 @@ const EditEmployee = () => {
 
     //Load Employee//
       const loadEmployee = async (id) => {
-      const res = await fetch(`http://localhost:5000/employees/${params.id}`);
+      const res = await fetch(`http://localhost:5000/employees/${id}`);
       const employee = await res.json();
 
       setUpdateEmployee({ firstName: employee.firstname, lastName: employee.lastname,  birthDate: employee.birthdate, afm: employee.afm } );
