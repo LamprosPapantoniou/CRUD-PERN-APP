@@ -11,6 +11,7 @@ import { Button, Card, CardContent, Typography } from "@mui/material";
 import UpdateIcon from '@mui/icons-material/Update';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import DoNotTouchIcon from '@mui/icons-material/DoNotTouch';
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -41,7 +42,7 @@ const ListEmployees = () => {
 
     const HandleEndPage = () => {
       if (Employees.length === 0)  {
-      setErrorMessage('Φτάσατε στο τέλος της Λιστας') 
+      setErrorMessage('Δεν υπάρχουν άλλοι εργαζόμενοι') 
       }else
        {setErrorMessage(false)
        }
@@ -188,8 +189,8 @@ const ListEmployees = () => {
       </Table>
       { errorMessage && 
            <Alert severity='info' >
-           <AlertTitle> <strong>Δεν υπάρχουν άλλοι εργαζόμενοι:</strong></AlertTitle> 
-             {errorMessage}  
+           <AlertTitle> <strong>Φτάσατε στο τέλος της λίστας:</strong></AlertTitle> 
+             {errorMessage} <DoNotTouchIcon /> 
            </Alert> 
       }
       <Typography align='right'  margin='0.5rem'>
