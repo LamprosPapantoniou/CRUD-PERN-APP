@@ -32,10 +32,14 @@ app.post('/employees', async (req, res) =>{
 app.get('/employees', async (req, res) =>{
     try{
         const {afm}= req.query;
+        const {page} = req.query;
         if(afm === undefined)
         {
+        const limit = 5;
+        const startIndex = (page-1) * limit;
         const allEmployees = await pool.query(
-            "SELECT * FROM employees"
+            "SELECT * FROM employees OFFSET $1 LIMIT $2",
+            [startIndex, limit]
         );
         res.json(allEmployees.rows); }
         else{
