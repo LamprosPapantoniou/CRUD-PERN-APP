@@ -67,15 +67,19 @@ const EditEmployee = () => {
             body: JSON.stringify(updateEmployee)
           }
         );
-
         navigate("/");
-      } else {
-        setErrorMessage('Το ΑΦΜ που εισάγετε υπάρχει ήδη!');
+        
+      }else if (updateEmployee.afm === null) {
+        setErrorMessage('To πεδίο ΑΦΜ δεν μπορει να ειναι κενό!');
+      }else {
+        setErrorMessage('To ΑΦΜ υπάρχει ήδη!');
       }
-    } catch (err) {
+
+     }catch (err) {
       setErrorMessage('Ουπς...Κάτι πηγε στραβά!');
     }
-  }
+  
+  };
 
   return(
     <Fragment>

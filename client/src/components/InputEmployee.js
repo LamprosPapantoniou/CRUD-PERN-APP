@@ -31,6 +31,7 @@ const InputEmployee = () => {
       const response = await fetch(`http://localhost:5000/employees?afm=${newEmployee.afm}`) //returns the users  with the same afm as the inserted one (if exists)
       const returnAfm = await response.json();
       
+      
       // eslint-disable-next-line eqeqeq
       if (returnAfm.afm != newEmployee.afm) {
         const body = newEmployee; 
@@ -41,9 +42,12 @@ const InputEmployee = () => {
       });
       navigate("/");  
 
+      }else if (newEmployee.afm === null) {
+        setErrorMessage('To πεδίο ΑΦΜ δεν μπορει να ειναι κενό!');
       }else {
         setErrorMessage('To ΑΦΜ υπάρχει ήδη!');
       }
+
      }catch (err) {
       setErrorMessage('Ουπς...Κάτι πηγε στραβά!');
     }
@@ -79,7 +83,7 @@ const InputEmployee = () => {
           />
            <TextField
             margin="dense"
-            id="name"
+            id="lastName"
             label="ΕΠΩΝΥΜΟ"
             type="text"
             fullWidth
@@ -97,7 +101,7 @@ const InputEmployee = () => {
 
           <TextField  
             margin="dense"
-            id="name"
+            id="dateOfBirth"
             label="ΗΜΕΡΟΜΗΝΙΑ ΓΕΝΝΗΣΗΣ"
             type="date"
             fullWidth
@@ -115,7 +119,7 @@ const InputEmployee = () => {
 
            <TextField
             margin="dense"
-            id="name"
+            id="afm"
             label="ΑΦΜ"
             type="text"
             fullWidth

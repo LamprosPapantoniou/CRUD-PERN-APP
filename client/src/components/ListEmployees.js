@@ -7,49 +7,102 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, Card, CardContent } from "@mui/material";
+import { Button, Card, CardContent, Typography } from "@mui/material";
 import UpdateIcon from '@mui/icons-material/Update';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 
 const ListEmployees = () => {
+  //reach end error //
+   const [errorMessage, setErrorMessage] = useState(false);
+
     
     const [Employees, setEmployees] = useState([]);
+    const [page, setPage] = useState(1)
+
+    
+    const HandleNextPage = () => {
+      if (Employees.length !== 0) {
+      setPage(prevPage => prevPage + 1)
+      }
+    }
+
+    const HandlePrevPage = () => {
+      if (page > 1 )  {
+      setPage(prevPage => prevPage - 1)
+      }
+    }
+
+    const HandleEndPage = () => {
+      if (Employees.length === 0)  {
+      setErrorMessage('Φτάσατε στο τέλος της Λιστας') 
+      }else
+       {setErrorMessage(false)
+       }
+    }
+    
+
+    console.log(page);
+    //get all employees//
+
+    const getEmployees = async () => {
+      try{
+          const response = await fetch(`http://localhost:5000/employees/?page=${page}`)
+          const getEmployees = await response.json();
+                      
+          setEmployees(getEmployees);
+          console.log(getEmployees);
+      } catch(err) {
+          console.error(err.message);
+      }
+    };
 
     //delete Employee function 
-
       const deleteEmployee = async (id) => {
         try {
            await fetch(`http://localhost:5000/employees/${id}`, {
            method: 'DELETE'
           });
 
-          const response = await fetch("http://localhost:5000/employees")
-          const jsonData = await response.json();
-
-          setEmployees(jsonData) ;
+          getEmployees();
 
         } catch (err) {
-
-          console.error(err.message)
-          
+          console.error(err.message)  
         }
       }
-          
-    const getEmployees = async () => {
-        try{
-            const response = await fetch("http://localhost:5000/employees")
-            const jsonData = await response.json();
-                        
-            setEmployees(jsonData);
-        } catch(err) {
-            console.error(err.message);
-        }
-    };
 
-    useEffect(() => {
-        getEmployees(); 
-    }, []);
+      //delete confirmation popup//
+      const deleteConf = (id) => {
+
+        confirmAlert({
+          title: 'Επιβεβαιωση διαγραφής',
+          message: 'Είστε σίγουρος/η, οτι θέλετε να διαγράψετε τον χρήστη;',
+          buttons: [
+            {
+              cursor: 'pointer',
+              label: 'Nαι',
+              onClick:() => deleteEmployee(id)
+            },
+            {
+              cursor: 'pointer',
+              label : 'Οχι',
+              onClick: () => navigate ('/')
+            }
+          ]
+        });
+  
+      } 
+          
+    
+      //navigate //
+
+      const navigate = useNavigate();
 
       //format birthday date //
 
@@ -58,7 +111,15 @@ const ListEmployees = () => {
         return date.toLocaleDateString('en-GB');
       }
   
-     const navigate = useNavigate();
+      useEffect(() => {
+        getEmployees(); 
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+     }, [page]);
+
+     useEffect(() => {
+      HandleEndPage(); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [Employees]);
 
     return(
       <Fragment>
@@ -117,19 +178,58 @@ const ListEmployees = () => {
               <Button variant="contained" 
                startIcon={<DeleteIcon />} 
                color="error" 
-               onClick={() => deleteEmployee(employee.id)} >
+               onClick={() => deleteConf(employee.id)} >
                Διαγραφη 
               </Button>
               </TableCell>
             </TableRow>
           ))}
-        </TableBody>
+        </TableBody> 
       </Table>
+      { errorMessage && 
+           <Alert severity='info' >
+           <AlertTitle> <strong>Δεν υπάρχουν άλλοι εργαζόμενοι:</strong></AlertTitle> 
+             {errorMessage}  
+           </Alert> 
+      }
+      <Typography align='right'  margin='0.5rem'>
+
+            <span>Σελίδα {page}η</span>
+            <Button variant='contained'
+            onClick={() => HandlePrevPage()} 
+            startIcon={<NavigateBeforeIcon />}
+            style={{backgroundColor :'#002147', 
+            color :'#ffffff',
+            boxShadow : 'none',
+            borderRadius: '50px',
+            padding: '8px',
+            margin: '7px',
+            marginLeft: '20px',
+            fontFamily: 'Arial',
+            fontSize: '16px',
+           }}
+            >
+            </Button>
+
+            <Button variant="contained"
+            onClick={() => HandleNextPage()} 
+            startIcon={<NavigateNextIcon />}
+            style={{backgroundColor :'#002147',
+            color :'#ffffff',
+            boxShadow : 'none',
+            borderRadius: '50px',
+            padding: '8px',
+            margin: '7px',
+            fontFamily: 'Arial',
+            fontSize: '16px'
+          }}
+            >
+            </Button>
+      </Typography>
     </TableContainer>
   </CardContent>
  </Card>
 </Fragment>
-    )
-};
+)};
 
 export default ListEmployees;
