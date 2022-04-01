@@ -14,7 +14,6 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useNavigate } from "react-router-dom";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import '../index.css'// Import css
 
 const ListEmployees = () => {
     
@@ -49,9 +48,6 @@ const ListEmployees = () => {
       }else setDisablePrevButton(false)
     }
 
-    console.log(page);
-    console.log(countPages);
-
     //get all employees//
     const getEmployees = async () => {
       try{
@@ -59,7 +55,6 @@ const ListEmployees = () => {
           const getEmployees = await response.json();
                       
           setEmployees(getEmployees);
-          console.log(getEmployees);
       } catch(err) {
           console.error(err.message);
       }
@@ -91,8 +86,6 @@ const ListEmployees = () => {
           console.error(err.message)  
         }
       }
-
-
 
       //delete confirmation popup//
       const deleteConf = (id) => {
@@ -136,6 +129,7 @@ const ListEmployees = () => {
         HandlePrevButton(); 
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [Employees]);
+
 
     return(
       <Fragment>
@@ -213,7 +207,12 @@ const ListEmployees = () => {
             onClick={() => HandlePrevPage()} 
             startIcon={<NavigateBeforeIcon />}
             style={{backgroundColor :'transparent',
-            borderRadius: '50px',
+            border: '2px solid black',
+            padding: '10px 20px',
+            fontSize: '16px',
+            cursor: 'pointer',
+            borderColor: '#e7e7e7',
+            borderRadius: '65px',
             marginLeft: '20px',
             marginRight: '10px'
            }}
@@ -226,9 +225,13 @@ const ListEmployees = () => {
             onClick={() => HandleNextPage()} 
             startIcon={<NavigateNextIcon />}
             style={{backgroundColor :'transparent',
-            borderRadius: '50px'
-        
-          }}
+            border: '2px solid black',
+            padding: '10px 20px',
+            fontSize: '16px',
+            cursor: 'pointer',
+            borderColor: '#e7e7e7',
+            borderRadius: '65px',
+           }}
             >
             </Button>
       </Typography>
