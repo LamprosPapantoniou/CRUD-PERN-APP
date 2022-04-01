@@ -33,15 +33,23 @@ app.get('/employees', async (req, res) =>{
     try{
         const {afm}= req.query;
         const {page} = req.query;
-        if(afm === undefined)
-        {
+        //employees per page
         const limit = 5;
-        const startIndex = (page-1) * limit;
-        const allEmployees = await pool.query(
-            "SELECT * FROM employees OFFSET $1 LIMIT $2",
-            [startIndex, limit]
-        );
-        res.json(allEmployees.rows); }
+
+        if(page === undefined && afm === undefined ){
+            const countEmpl = await pool.query(
+                'SELECT COUNT(*) FROM employees'
+            );
+            res.json(countEmpl.rows[0].count/limit);
+        }
+        else if(afm === undefined){
+           const startIndex = (page-1) * limit;
+           const allEmployees = await pool.query(
+                "SELECT * FROM employees OFFSET $1 LIMIT $2",
+                [startIndex, limit]
+            );
+            res.json(allEmployees.rows); 
+       }
         else{
             const check = await pool.query(
                 'SELECT * FROM employees WHERE afm=$1',
