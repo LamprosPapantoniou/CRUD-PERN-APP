@@ -11,25 +11,21 @@ import { Button, Card, CardContent, Typography } from "@mui/material";
 import UpdateIcon from '@mui/icons-material/Update';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import DoNotTouchIcon from '@mui/icons-material/DoNotTouch';
 import { useNavigate } from "react-router-dom";
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-
+import '../index.css'// Import css
 
 const ListEmployees = () => {
-  //reach end error //
-   const [errorMessage, setErrorMessage] = useState(false);
-
     
     const [Employees, setEmployees] = useState([]);
+    const [countPages, setCountPages] = useState();
     const [page, setPage] = useState(1)
-
+    const [disableNextButton, setDisableNextButton] = useState(false);
+    const [disablePrevButton, setDisablePrevButton] = useState(false);
     
     const HandleNextPage = () => {
-      if (Employees.length !== 0) {
+      if (page < countPages) {
       setPage(prevPage => prevPage + 1)
       }
     }
@@ -40,18 +36,23 @@ const ListEmployees = () => {
       }
     }
 
-    const HandleEndPage = () => {
-      if (Employees.length === 0)  {
-      setErrorMessage('Δεν υπάρχουν άλλοι εργαζόμενοι') 
+    const HandleNextButton = () => {
+      if (page >= countPages) {
+        setDisableNextButton(true)
       }else
-       {setErrorMessage(false)
-       }
+       setDisableNextButton(false)
     }
-    
+
+    const HandlePrevButton = () => {
+      if (page === 1) {
+        setDisablePrevButton(true)
+      }else setDisablePrevButton(false)
+    }
 
     console.log(page);
-    //get all employees//
+    console.log(countPages);
 
+    //get all employees//
     const getEmployees = async () => {
       try{
           const response = await fetch(`http://localhost:5000/employees/?page=${page}`)
@@ -61,6 +62,19 @@ const ListEmployees = () => {
           console.log(getEmployees);
       } catch(err) {
           console.error(err.message);
+      }
+    };
+
+    //get number of pages 
+    const getPagesCount = async () => {
+      try {
+          const response = await fetch('http://localhost:5000/employees')
+          const getPagesCount = await response.json();
+
+          setCountPages(getPagesCount);
+        
+      } catch (err) {
+         console.error(err.message);
       }
     };
 
@@ -77,6 +91,8 @@ const ListEmployees = () => {
           console.error(err.message)  
         }
       }
+
+
 
       //delete confirmation popup//
       const deleteConf = (id) => {
@@ -97,16 +113,12 @@ const ListEmployees = () => {
             }
           ]
         });
-  
       } 
           
-    
       //navigate //
-
-      const navigate = useNavigate();
+        const navigate = useNavigate();
 
       //format birthday date //
-
         const FormatBday = (dateStr) => {
         const date = new Date(dateStr)
         return date.toLocaleDateString('en-GB');
@@ -117,10 +129,13 @@ const ListEmployees = () => {
      // eslint-disable-next-line react-hooks/exhaustive-deps
      }, [page]);
 
-     useEffect(() => {
-      HandleEndPage(); 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [Employees]);
+   
+      useEffect(() => {
+        getPagesCount(); 
+        HandleNextButton(); 
+        HandlePrevButton(); 
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [Employees]);
 
     return(
       <Fragment>
@@ -187,42 +202,32 @@ const ListEmployees = () => {
           ))}
         </TableBody> 
       </Table>
-      { errorMessage && 
-           <Alert severity='info' >
-           <AlertTitle> <strong>Φτάσατε στο τέλος της λίστας:</strong></AlertTitle> 
-             {errorMessage} <DoNotTouchIcon /> 
-           </Alert> 
-      }
+      
       <Typography align='right'  margin='0.5rem'>
 
             <span>Σελίδα {page}η</span>
-            <Button variant='contained'
+
+            <Button className='btn default'
+            variant='raised'
+            disabled = {disablePrevButton}
             onClick={() => HandlePrevPage()} 
             startIcon={<NavigateBeforeIcon />}
-            style={{backgroundColor :'#002147', 
-            color :'#ffffff',
-            boxShadow : 'none',
+            style={{backgroundColor :'transparent',
             borderRadius: '50px',
-            padding: '8px',
-            margin: '7px',
             marginLeft: '20px',
-            fontFamily: 'Arial',
-            fontSize: '16px',
+            marginRight: '10px'
            }}
             >
             </Button>
 
-            <Button variant="contained"
+            <Button className='btn default'
+            variant="raised "
+            disabled = {disableNextButton}
             onClick={() => HandleNextPage()} 
             startIcon={<NavigateNextIcon />}
-            style={{backgroundColor :'#002147',
-            color :'#ffffff',
-            boxShadow : 'none',
-            borderRadius: '50px',
-            padding: '8px',
-            margin: '7px',
-            fontFamily: 'Arial',
-            fontSize: '16px'
+            style={{backgroundColor :'transparent',
+            borderRadius: '50px'
+        
           }}
             >
             </Button>
