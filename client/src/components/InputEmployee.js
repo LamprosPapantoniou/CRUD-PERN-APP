@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import TextField from '@material-ui/core/Textfield';
+import TextField from '@material-ui/Textfield';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -28,14 +28,14 @@ const InputEmployee = () => {
   const onSubmitForm = async e => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/employees?afm=${newEmployee.afm}`) //returns the users  with the same afm as the inserted one (if exists)
+      const response = await fetch(`/employees?afm=${newEmployee.afm}`) //returns the users  with the same afm as the inserted one (if exists)
       const returnAfm = await response.json();
       
       
       // eslint-disable-next-line eqeqeq
       if (returnAfm.afm != newEmployee.afm) {
         const body = newEmployee; 
-        await fetch('http://localhost:5000/employees', {
+        await fetch('/employees', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)

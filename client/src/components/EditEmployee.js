@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@material-ui/core/Textfield';
+import TextField from '@material-ui/Textfield';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -33,7 +33,7 @@ const EditEmployee = () => {
 
     //Load Employee//
       const loadEmployee = async (id) => {
-      const res = await fetch(`http://localhost:5000/employees/${id}`);
+      const res = await fetch(`/employees/${id}`);
       const employee = await res.json();
 
       setUpdateEmployee({ firstName: employee.firstname, lastName: employee.lastname,  birthDate: employee.birthdate, afm: employee.afm } );
@@ -54,13 +54,13 @@ const EditEmployee = () => {
     async function onSubmitForm(e) {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/employees?afm=${updateEmployee.afm}`);
+      const response = await fetch(`/employees?afm=${updateEmployee.afm}`);
       const returnEmployee = await response.json();
 
       // eslint-disable-next-line eqeqeq
       if (returnEmployee.afm !== updateEmployee.afm || returnEmployee.id == params.id) {
         await fetch(
-          `http://localhost:5000/employees/${params.id}`,
+          `/employees/${params.id}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },

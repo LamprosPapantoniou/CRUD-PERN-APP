@@ -22,9 +22,7 @@ const ListEmployees = () => {
     const [countPages, setCountPages] = useState();
     const [page, setPage] = useState(1)
     const [disableNextButton, setDisableNextButton] = useState(false);
-    const [disablePrevButton, setDisablePrevButton] = useState(false);
-    //const [endIndex, setEndIndex] = useState()//
-  
+    const [disablePrevButton, setDisablePrevButton] = useState(false);  
 
     const HandleNextPage = () => {
       if (page < countPages) {
@@ -54,7 +52,7 @@ const ListEmployees = () => {
     //get all employees//
     const getEmployees = async () => {
       try{
-          const response = await fetch(`http://localhost:5000/employees/?page=${page}`)
+          const response = await fetch(`/employees/?page=${page}`)
           const getEmployees = await response.json();
                       
           setEmployees(getEmployees);
@@ -68,7 +66,7 @@ const ListEmployees = () => {
     //get number of pages 
     const getPagesCount = async () => {
       try {
-          const response = await fetch('http://localhost:5000/employees')
+          const response = await fetch('/employees')
           const getPagesCount = await response.json();
 
           setCountPages(getPagesCount);
@@ -81,7 +79,7 @@ const ListEmployees = () => {
     //delete Employee function 
       const deleteEmployee = async (id) => {
         try {
-           await fetch(`http://localhost:5000/employees/${id}`, {
+           await fetch(`/employees/${id}`, {
            method: 'DELETE'
           });
 
