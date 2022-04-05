@@ -14,6 +14,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useNavigate } from "react-router-dom";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import '../index.css' // Import css
 
 const ListEmployees = () => {
     
@@ -22,7 +23,9 @@ const ListEmployees = () => {
     const [page, setPage] = useState(1)
     const [disableNextButton, setDisableNextButton] = useState(false);
     const [disablePrevButton, setDisablePrevButton] = useState(false);
-    
+    //const [endIndex, setEndIndex] = useState()//
+  
+
     const HandleNextPage = () => {
       if (page < countPages) {
       setPage(prevPage => prevPage + 1)
@@ -55,10 +58,12 @@ const ListEmployees = () => {
           const getEmployees = await response.json();
                       
           setEmployees(getEmployees);
+
       } catch(err) {
           console.error(err.message);
       }
     };
+
 
     //get number of pages 
     const getPagesCount = async () => {
