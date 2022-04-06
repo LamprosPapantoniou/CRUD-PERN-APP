@@ -54,7 +54,8 @@ const ListEmployees = () => {
       try{
           const response = await fetch(`/employees/?page=${page}`)
           const getEmployees = await response.json();
-                      
+                
+          console.log(getEmployees);
           setEmployees(getEmployees);
 
       } catch(err) {
