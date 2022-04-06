@@ -31,19 +31,22 @@ const InputEmployee = () => {
       const response = await fetch(`/employees?afm=${newEmployee.afm}`) //returns the users  with the same afm as the inserted one (if exists)
       const returnAfm = await response.json();
       
-      
+     if(newEmployee.afm === null) {
+      setErrorMessage('To πεδίο ΑΦΜ δεν μπορει να ειναι κενό!');
+    
+     }else if (newEmployee.afm.length < 9 || newEmployee.afm.length > 9 ) {
+      setErrorMessage('To πεδίο ΑΦΜ πρέπει να περιέχει 9 ψηφία!');
+
       // eslint-disable-next-line eqeqeq
-      if (returnAfm.afm != newEmployee.afm) {
+      }else if (returnAfm.afm != newEmployee.afm )  {
         const body = newEmployee; 
         await fetch('/employees', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
-        console.log(newEmployee);
-        navigate("/");  
-      }else if (newEmployee.afm === null) {
-        setErrorMessage('To πεδίο ΑΦΜ δεν μπορει να ειναι κενό!');
+      navigate("/");  
+      
       }else {
         setErrorMessage('To ΑΦΜ υπάρχει ήδη!');
       }

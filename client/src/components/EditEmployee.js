@@ -57,8 +57,14 @@ const EditEmployee = () => {
       const response = await fetch(`/employees?afm=${updateEmployee.afm}`);
       const returnEmployee = await response.json();
 
+      if(updateEmployee.afm.length === 0 ) {
+        setErrorMessage('To πεδίο ΑΦΜ δεν μπορει να ειναι κενό!');
+      
+      }else if (updateEmployee.afm.length < 9 || updateEmployee.afm.length > 9 ) {
+        setErrorMessage('To πεδίο ΑΦΜ πρέπει να περιέχει 9 ψηφία!');
+
       // eslint-disable-next-line eqeqeq
-      if (returnEmployee.afm !== updateEmployee.afm || returnEmployee.id == params.id) {
+      }else if (returnEmployee.afm !== updateEmployee.afm || returnEmployee.id == params.id) {
         await fetch(
           `/employees/${params.id}`,
           {
@@ -68,9 +74,7 @@ const EditEmployee = () => {
           }
         );
         navigate("/");
-        
-      }else if (updateEmployee.afm === null) {
-        setErrorMessage('To πεδίο ΑΦΜ δεν μπορει να ειναι κενό!');
+ 
       }else {
         setErrorMessage('To ΑΦΜ υπάρχει ήδη!');
       }
