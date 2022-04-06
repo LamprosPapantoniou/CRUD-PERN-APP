@@ -40,7 +40,8 @@ const InputEmployee = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
-      navigate("/");  
+      //navigate("/");  
+        window.location('/');
 
       }else if (newEmployee.afm === null) {
         setErrorMessage('To πεδίο ΑΦΜ δεν μπορει να ειναι κενό!');
