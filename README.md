@@ -22,9 +22,6 @@ Delete, Update and Get company employees.
 
 https://www.loom.com/share/ec198bf557184e70ad6e12961c8b68c8
 
-## Support
-
-For support, email lampispapantoniou@gmail.com .
 
 ## Installation
 
@@ -50,6 +47,9 @@ To run the Frontend
  npm start
 ```
 
+## Support
+
+For support, email lampispapantoniou@gmail.com .
 
 ## Authors
 
