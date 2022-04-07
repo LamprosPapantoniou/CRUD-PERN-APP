@@ -1,8 +1,8 @@
 
 # CRUD-PERN-APP
 
-A CRUD application created with PostgreSQL, Express, React and Node (PERN). It creates,
-delete, update and Get company employees.
+A CRUD application created with PostgreSQL, Express, React and Node (PERN). It Creates,
+Delete, Update and Get company employees.
 
 ![Logo](https://www.freecodecamp.org/news/content/images/size/w2000/2020/03/PERN.png)
 
