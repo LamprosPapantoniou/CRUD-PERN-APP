@@ -8,7 +8,7 @@ delete, update and Get company employees.
 
 
 ## Usage
-
+![ Alt text](Hnet-image. gif)
 
 
 ## Tech Stack
