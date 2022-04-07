@@ -21,9 +21,34 @@ Delete, Update and Get company employees.
 ## Demo
 
 https://www.loom.com/share/ec198bf557184e70ad6e12961c8b68c8
+
 ## Support
 
 For support, email lampispapantoniou@gmail.com .
+
+## Installation
+
+This project consists in a Web Frontend Application and a Web Backend Application.
+
+First, clone the repo:
+```bash
+  git clone https://github.com/LamprosPapantoniou/CRUD-PERN-APP
+```
+To install the dependencies
+```bash
+  npm install
+```
+
+To run the Backend
+```bash
+  nodemon index
+```
+
+To run the Frontend
+```bash
+ cd client
+ npm start
+```
 
 
 ## Authors
