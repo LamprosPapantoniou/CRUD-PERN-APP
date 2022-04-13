@@ -138,7 +138,7 @@ const EditEmployee = () => {
             type="date"
             fullWidth
             variant="standard"
-            value={FormatBday(updateEmployee.birthDate)}
+            value={FormatBday(updateEmployee.birthDate)}   //get the date the appropriate format 
             InputLabelProps={{
               shrink: true,
             }}
