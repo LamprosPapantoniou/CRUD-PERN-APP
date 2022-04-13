@@ -94,8 +94,6 @@ const EditEmployee = () => {
           <DialogContentText>
             Επεξεργαστείτε τα στοιχεία του υπαλλήλου.
           </DialogContentText>
-          <div>{updateEmployee.birthDate}</div>
-          <div>{FormatBday(updateEmployee.birthDate)}</div>
           <TextField
             autoFocus
             margin="dense"
