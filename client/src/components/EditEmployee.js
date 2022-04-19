@@ -64,7 +64,7 @@ const EditEmployee = () => {
         // eslint-disable-next-line eqeqeq
       } else if (
         returnEmployee.afm !== updateEmployee.afm ||
-        returnEmployee.id == params.id
+        returnEmployee.id === params.id
       ) {
         await fetch(`/employees/${params.id}`, {
           method: "PUT",
@@ -138,7 +138,7 @@ const EditEmployee = () => {
             type="date"
             fullWidth
             variant="standard"
-            value={FormatBday(updateEmployee.birthDate)}   //get the date the appropriate format 
+            value={FormatBday(updateEmployee.birthDate)}
             InputLabelProps={{
               shrink: true,
             }}
