@@ -10,6 +10,8 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { useNavigate } from "react-router-dom";
 
+import DatePicker from "react-date-picker";
+
 const InputEmployee = () => {
   const [newEmployee, setNewEmployee] = useState({
     firstName: null,
@@ -48,6 +50,12 @@ const InputEmployee = () => {
     } catch (err) {
       setErrorMessage("Ουπς...Κάτι πηγε στραβά!");
     }
+  };
+
+  //format birthday date //
+  const FormatBday = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("en-CA");
   };
 
   return (
@@ -95,24 +103,22 @@ const InputEmployee = () => {
               })
             }
           />
-
-          <TextField
-            margin="dense"
-            id="dateOfBirth"
-            label="ΗΜΕΡΟΜΗΝΙΑ ΓΕΝΝΗΣΗΣ"
-            type="date"
-            fullWidth
-            variant="standard"
-            value={newEmployee.birthDate}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={(e) =>
+          <div
+            style={{ color: "grey", fontSize: "14px", fontWeight: "normal" }}
+          >
+            ΗΜΕΡΟΜΗΝΙΑ ΓΕΝΝΗΣΗΣ
+          </div>
+          <DatePicker
+            format="dd/MM/yy"
+            selected="null"
+            value={new Date(newEmployee.birthDate)}
+            onChange={(date) =>
               setNewEmployee({
                 ...newEmployee,
-                birthDate: e.target.value,
+                birthDate: FormatBday(date),
               })
             }
+            fixedHeight
           />
 
           <TextField

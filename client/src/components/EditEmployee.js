@@ -10,6 +10,8 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { useNavigate, useParams } from "react-router-dom";
 
+import DatePicker from "react-date-picker";
+
 const EditEmployee = () => {
   const [updateEmployee, setUpdateEmployee] = useState({
     firstName: null,
@@ -64,7 +66,7 @@ const EditEmployee = () => {
         // eslint-disable-next-line eqeqeq
       } else if (
         returnEmployee.afm !== updateEmployee.afm ||
-        returnEmployee.id === params.id
+        returnEmployee.id == params.id
       ) {
         await fetch(`/employees/${params.id}`, {
           method: "PUT",
@@ -131,24 +133,24 @@ const EditEmployee = () => {
               })
             }
           />
-          <TextField
-            margin="dense"
-            id="name"
-            label="ΗΜΕΡΟΜΗΝΙΑ ΓΕΝΝΗΣΗΣ"
-            type="date"
-            fullWidth
-            variant="standard"
-            value={FormatBday(updateEmployee.birthDate)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={(e) =>
+
+          <div
+            style={{ color: "grey", fontSize: "14px", fontWeight: "normal" }}
+          >
+            ΗΜΕΡΟΜΗΝΙΑ ΓΕΝΝΗΣΗΣ
+          </div>
+          <DatePicker
+            format="dd/MM/yy"
+            value={new Date(updateEmployee.birthDate)}
+            onChange={(date) =>
               setUpdateEmployee({
                 ...updateEmployee,
-                birthDate: e.target.value,
+                birthDate: FormatBday(date),
               })
             }
+            fixedHeight
           />
+
           <TextField
             margin="dense"
             id="name"
