@@ -33,46 +33,41 @@ app.post("/employees", async (req, res) => {
   }
 });
 
-
 //GET ALL
-app.get("/employees", async (req, res) =>{
-  try{
-      const {afm} = req.query;
-      const {page} = req.query;
-      const limit = 5;
+app.get("/employees", async (req, res) => {
+  try {
+    const { afm } = req.query;
+    const { page } = req.query;
+    const limit = 5;
 
-      if (afm === undefined){
+    if (afm === undefined) {
+      const countEmpl = await pool.query("SELECT COUNT(*) FROM employees");
+      const startIndex = (page - 1) * limit;
+      const allEmployees = await pool.query(
+        "SELECT * FROM employees ORDER BY id OFFSET $1 LIMIT $2",
+        [startIndex, limit]
+      );
 
-          const countEmpl = await pool.query(
-              'SELECT COUNT(*) FROM employees'
-          );
-         const startIndex = (page-1) * limit;
-         const allEmployees = await pool.query(
-              "SELECT * FROM employees OFFSET $1 LIMIT $2",
-              [startIndex, limit]
-          );
-
-          const employeesElements = {
-              totalEmployees: countEmpl.rows[0].count,
-              employees: allEmployees.rows,
-              countPages: countEmpl.rows[0].count/limit,
-              pageNumber: page
-          };
-          res.json(employeesElements);
+      const employeesElements = {
+        totalEmployees: countEmpl.rows[0].count,
+        employees: allEmployees.rows,
+        countPages: countEmpl.rows[0].count / limit,
+        pageNumber: page,
+      };
+      res.json(employeesElements);
+    } else {
+      const checkEmployee = await pool.query(
+        "SELECT * FROM employees WHERE afm=$1",
+        [afm]
+      );
+      if (checkEmployee.rows[0] == undefined) {
+        res.json("Empty");
+      } else {
+        res.json(checkEmployee.rows[0]);
       }
-      else {
-        const checkEmployee = await pool.query(
-          'SELECT * FROM employees WHERE afm=$1',
-          [afm]
-        );
-        if(checkEmployee.rows[0] == undefined){
-          res.json("Empty");
-        }else{
-          res.json(checkEmployee.rows[0]);
-         } 
-      }
-  }catch(err){
-      console.log(err.message);
+    }
+  } catch (err) {
+    console.log(err.message);
   }
 });
 //get an employee
