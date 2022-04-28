@@ -10,7 +10,7 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { useNavigate, useParams } from "react-router-dom";
 
-import DatePicker from "react-date-picker";
+import { DatePicker } from "@mui/lab";
 
 const EditEmployee = () => {
   const [updateEmployee, setUpdateEmployee] = useState({
@@ -134,21 +134,17 @@ const EditEmployee = () => {
             }
           />
 
-          <div
-            style={{ color: "grey", fontSize: "14px", fontWeight: "normal" }}
-          >
-            ΗΜΕΡΟΜΗΝΙΑ ΓΕΝΝΗΣΗΣ
-          </div>
           <DatePicker
-            format="dd/MM/yy"
+            inputFormat="dd/MM/yyyy"
+            label="ΗΜΕΡΟΜΗΝΙΑ ΓΕΝΝΗΣΗΣ"
             value={new Date(updateEmployee.birthDate)}
-            onChange={(date) =>
+            onChange={(date) => {
               setUpdateEmployee({
                 ...updateEmployee,
                 birthDate: FormatBday(date),
-              })
-            }
-            fixedHeight
+              });
+            }}
+            renderInput={(params) => <TextField {...params} />}
           />
 
           <TextField
