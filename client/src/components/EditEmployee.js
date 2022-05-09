@@ -52,7 +52,14 @@ const EditEmployee = () => {
   async function onSubmitForm(e) {
     e.preventDefault();
     try {
-      const response = await fetch(`/employees?afm=${updateEmployee.afm}`);
+      //pass 2 headers
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("token", localStorage.token);
+
+      const response = await fetch(`/employees?afm=${updateEmployee.afm}`, {
+        headers: myHeaders,
+      });
       const returnEmployee = await response.json();
 
       if (updateEmployee.afm.length === 0) {
@@ -70,7 +77,7 @@ const EditEmployee = () => {
       ) {
         await fetch(`/employees/${params.id}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: myHeaders,
           body: JSON.stringify(updateEmployee),
         });
         navigate("/");

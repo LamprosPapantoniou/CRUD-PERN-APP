@@ -27,7 +27,14 @@ const InputEmployee = () => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`/employees?afm=${newEmployee.afm}`); //returns the users  with the same afm as the inserted one (if exists)
+      //pass 2 headers
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("token", localStorage.token);
+
+      const response = await fetch(`/employees?afm=${newEmployee.afm}`, {
+        headers: myHeaders,
+      });
       const returnAfm = await response.json();
 
       if (newEmployee.afm === null) {
@@ -40,7 +47,7 @@ const InputEmployee = () => {
         const body = newEmployee;
         await fetch("/employees", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: myHeaders,
           body: JSON.stringify(body),
         });
         navigate("/");

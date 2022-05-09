@@ -13,10 +13,11 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { useNavigate } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert"; // Import
+import Grid from "@mui/material/Grid";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import "../index.css"; // Import css
 
-const ListEmployees = () => {
+const ListEmployees = ({ setAuth }) => {
   const [Employees, setEmployees] = useState([]);
   const [totalEmployees, setTotalEmployees] = useState();
   const [countPages, setCountPages] = useState();
@@ -51,7 +52,14 @@ const ListEmployees = () => {
   //get all employees//
   const getEmployees = async () => {
     try {
-      const response = await fetch(`/employees?page=${page}`);
+      //pass 2 headers
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("token", localStorage.token);
+
+      const response = await fetch(`/employees?page=${page}`, {
+        headers: myHeaders,
+      });
       const getEmployees = await response.json();
 
       setEmployees(getEmployees.employees);
@@ -62,11 +70,15 @@ const ListEmployees = () => {
     }
   };
 
-
   //delete Employee function
   const deleteEmployee = async (id) => {
     try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("token", localStorage.token);
+
       await fetch(`/employees/${id}`, {
+        headers: myHeaders,
         method: "DELETE",
       });
 
@@ -103,6 +115,16 @@ const ListEmployees = () => {
   const FormatBday = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString("en-GB");
+  };
+
+  //logout button style
+  const btnstyle = { margin: "8px 0" };
+
+  //logout button function
+  const logout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    setAuth(false);
   };
 
   useEffect(() => {
@@ -230,6 +252,17 @@ const ListEmployees = () => {
           </TableContainer>
         </CardContent>
       </Card>
+      <Grid align="center">
+        <Button
+          type="submit"
+          color="error"
+          variant="contained"
+          style={btnstyle}
+          onClick={logout}
+        >
+          Αποσυνδεση
+        </Button>
+      </Grid>
     </Fragment>
   );
 };
