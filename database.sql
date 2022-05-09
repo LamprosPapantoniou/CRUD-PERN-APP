@@ -13,13 +13,14 @@ CREATE DATABASE jwtauth;
 
 --set extention for uuid generate
 CREATE TABLE users(
-  id SERIAL PRIMARY KEY ,
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL
 
 );
 
 
---insert into users 
+--insert into users  
+--bcrypted salt password 10 times
 INSERT INTO users (email, password)
-VALUES ('user1@gmail.com', '123456789');
+VALUES ('user@gmail.com', '$2a$10$0JWukE6tCAkeWNeE2WMN/uklVd3xbihDze0u7.KgV6jM0XmC6vtau');

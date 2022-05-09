@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("./db");
+const bcrypt = require("bcrypt");
 const jwtGenerator = require("./jwtGenerator");
 const validation = require("./validation");
 const authorization = require("./authorization");
@@ -22,8 +23,9 @@ router.post("/login", validation, async (req, res) => {
     }
 
     //3. check if incoming password is the same database password
+    const validPassword = await bcrypt.compare(password, user.rows[0].password);
 
-    if (password !== user.rows[0].password) {
+    if (!validPassword) {
       return res.status(401).json("Λάθος email ή κωδικός!");
     }
 
