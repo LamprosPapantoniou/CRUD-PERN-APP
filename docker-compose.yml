@@ -18,9 +18,9 @@ services:
     links:
       - postgres
     environment:
-      POSTGRES_USER: ${PG_USER}
-      POSTGRES_PASSWORD: ${PG_PASSWORD}
-      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DATABASE: postgres
     networks:
       pern-app:
 
@@ -28,11 +28,11 @@ services:
     image: postgres
     container_name: postgres_db
     environment:
-      POSTGRES_USER: ${PG_USER}
-      POSTGRES_PASSWORD: ${PG_PASSWORD}
-      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DATABASE: postgres
     ports:
-      - "5432:5432"
+      - "5438:5432"
     networks:
       pern-app:
     volumes:
