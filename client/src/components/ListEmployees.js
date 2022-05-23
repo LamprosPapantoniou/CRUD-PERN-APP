@@ -52,14 +52,7 @@ const ListEmployees = ({ setAuth }) => {
   //get all employees//
   const getEmployees = async () => {
     try {
-      //pass 2 headers
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("token", localStorage.token);
-
-      const response = await fetch(`/employees?page=${page}`, {
-        headers: myHeaders,
-      });
+      const response = await fetch(`/employees?page=${page}`);
       const getEmployees = await response.json();
 
       setEmployees(getEmployees.employees);
@@ -73,12 +66,7 @@ const ListEmployees = ({ setAuth }) => {
   //delete Employee function
   const deleteEmployee = async (id) => {
     try {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("token", localStorage.token);
-
       await fetch(`/employees/${id}`, {
-        headers: myHeaders,
         method: "DELETE",
       });
 
