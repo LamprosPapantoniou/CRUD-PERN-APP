@@ -9,8 +9,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json()); // => allows us to access the req.body
 
-app.use(express.static(path.join(__dirname, "client/build")));
-
 if (process.env.NODE_ENV === "production") {
   //server static content
   //npm run build
@@ -24,6 +22,7 @@ if (process.env.NODE_ENV === "production") {
 app.use("/auth", require("./jwtAuth"));
 
 //dashboard route
+
 app.use("/dashboard", require("./dashboard"));
 
 //create an employee
@@ -58,10 +57,10 @@ app.get("/employees", async (req, res) => {
       );
 
       const employeesElements = {
-        totalEmployees: countEmpl.rows[0].count / 1,
+        totalEmployees: countEmpl.rows[0].count,
         employees: allEmployees.rows,
         countPages: countEmpl.rows[0].count / limit,
-        pageNumber: page / 1,
+        pageNumber: page,
       };
       res.json(employeesElements);
     } else {

@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("./db");
-const bcrypt = require("bcrypt");
 const jwtGenerator = require("./jwtGenerator");
-const validation = require("./validation");
+const validInfo = require("./validinfo");
 const authorization = require("./authorization");
 
 //login route
-router.post("/login", validation, async (req, res) => {
+
+router.post("/login", validInfo, async (req, res) => {
   try {
     //1. destructure the body
 
@@ -23,9 +23,8 @@ router.post("/login", validation, async (req, res) => {
     }
 
     //3. check if incoming password is the same database password
-    const validPassword = await bcrypt.compare(password, user.rows[0].password);
 
-    if (!validPassword) {
+    if (password !== user.rows[0].password) {
       return res.status(401).json("Λάθος email ή κωδικός!");
     }
 
@@ -35,7 +34,7 @@ router.post("/login", validation, async (req, res) => {
 
     res.json({ token });
   } catch (error) {
-    console.error(err.message);
+    console.error(error.message);
     res.status(500).send("Server Error");
   }
 });
@@ -44,7 +43,7 @@ router.post("/verify", authorization, async (req, res) => {
   try {
     res.json(true);
   } catch (err) {
-    console.error(err.message);
+    console.error(error.message);
     res.status(500).send("Server error");
   }
 });
