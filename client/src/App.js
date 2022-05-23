@@ -28,7 +28,7 @@ function App() {
   //We hit the jwtAuth endpoint to check if the person is still verified
   const checkAuthenticated = async () => {
     try {
-      const res = await fetch(`/auth/verify`, {
+      const res = await fetch("http://localhost:5000/auth/verify", {
         method: "POST",
         headers: { token: localStorage.token },
       });
@@ -43,7 +43,7 @@ function App() {
 
   useEffect(() => {
     checkAuthenticated();
-  }, []);
+  });
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
