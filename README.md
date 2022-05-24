@@ -34,6 +34,8 @@ First, clone the repo:
 To install the dependencies
 ```bash
   npm install
+  cd client 
+  npm install
 ```
 
 To run the Backend
