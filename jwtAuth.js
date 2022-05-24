@@ -23,6 +23,7 @@ router.post("/login", validInfo, async (req, res) => {
     }
 
     //3. check if incoming password is the same database password
+    //const validPassword = await bcrypt.compare(password, user.rows[0].password);
 
     if (password !== user.rows[0].password) {
       return res.status(401).json("Λάθος email ή κωδικός!");

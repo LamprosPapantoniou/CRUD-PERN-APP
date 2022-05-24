@@ -24,4 +24,4 @@ CREATE TABLE users(
 --insert into users  
 --bcrypted salt password 10 times
 INSERT INTO users (email, password)
-VALUES ('user@gmail.com', '$2a$10$0JWukE6tCAkeWNeE2WMN/uklVd3xbihDze0u7.KgV6jM0XmC6vtau');
+VALUES ('user@gmail.com', '1111');
