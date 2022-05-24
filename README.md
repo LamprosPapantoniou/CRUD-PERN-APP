@@ -47,6 +47,32 @@ To run the Frontend
  npm start
 ```
 
+
+## To run the App on Docker
+
+First, clone the repo:
+```bash
+  git clone https://github.com/LamprosPapantoniou/CRUD-PERN-APP
+```
+Install the dependencies
+```bash
+  npm install
+  cd client
+  npm install
+```
+
+Build the images:
+```bash
+  docker-compose build 
+```
+
+Run the containers:
+```bash
+  docker-compose up 
+```
+
+
+
 ## Support
 
 For support, email lampispapantoniou@gmail.com .
