@@ -44,11 +44,10 @@ app.post("/employees", async (req, res) => {
 //GET ALL
 app.get("/employees", async (req, res) => {
   try {
-    const { afm } = req.query;
-    const { page } = req.query;
+    const { afm, page } = req.query;
     const limit = 5;
 
-    if (afm === undefined) {
+    if (!afm) {
       const countEmpl = await pool.query("SELECT COUNT(*) FROM employees");
       const startIndex = (page - 1) * limit;
       const allEmployees = await pool.query(
