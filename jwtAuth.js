@@ -40,9 +40,10 @@ router.post("/login", validInfo, async (req, res) => {
   }
 });
 
+//consistently verify the Jwt token whenever the app is refreshed
 router.post("/verify", authorization, async (req, res) => {
   try {
-    res.json(true);
+    res.status(200).send('Empty Body');
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
