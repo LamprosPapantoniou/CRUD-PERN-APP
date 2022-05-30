@@ -19,7 +19,6 @@ import "../index.css"; // Import css
 
 const ListEmployees = ({ setAuth }) => {
   const [Employees, setEmployees] = useState([]);
-  const [totalEmployees, setTotalEmployees] = useState();
   const [countPages, setCountPages] = useState();
   const [page, setPage] = useState(1);
   const [disableNextButton, setDisableNextButton] = useState(false);
@@ -57,7 +56,6 @@ const ListEmployees = ({ setAuth }) => {
 
       setEmployees(getEmployees.employees);
       setCountPages(getEmployees.countPages);
-      setTotalEmployees(getEmployees.totalEmployees);
     } catch (err) {
       console.error(err.message);
     }

@@ -66,6 +66,7 @@ const EditEmployee = () => {
         // eslint-disable-next-line eqeqeq
       } else if (
         returnEmployee.afm !== updateEmployee.afm ||
+        // eslint-disable-next-line eqeqeq
         returnEmployee.id == params.id
       ) {
         await fetch(`/employees/${params.id}`, {
